@@ -39,7 +39,7 @@ from search import Graph
 # If you don't, it won't.
 # The online tester will not test them.
 
-def bfs(graph, start, goal):
+dedef bfs(graph, start, goal):
     open_set = queue.Queue()
     closed_set = set()
     meta = dict()
@@ -49,16 +49,16 @@ def bfs(graph, start, goal):
     
     while not open_set.empty():
         parent_state = open_set.get()
-        if start == goal:
-            return None #this should return the path, needs work
-        for (child_state, action) in graph.get_connected_nodes(parent_state):
+        if parent_state == goal:
+            return construct_path(parent_state,meta) 
+        for child_state in graph.get_connected_nodes(parent_state):
             if child_state in closed_set:
                 continue
-            if child_state not in open_set:
-                meta[child_state] = (parent_state, action)
+            if child_state not in list(open_set.queue):
+                meta[child_state] = (parent_state)
                 open_set.put(child_state)
         closed_set.add(parent_state)
-        
+            
 def construct_path(state, meta):
     action_list = list()
     
