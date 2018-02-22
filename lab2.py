@@ -40,8 +40,38 @@ from search import Graph
 # The online tester will not test them.
 
 def bfs(graph, start, goal):
-    raise NotImplementedError
-
+    open_set = queue.Queue()
+    closed_set = set()
+    meta = dict()
+    
+    meta[start] = (None,None)
+    open_set.put(start)
+    
+    while not open_set.empty():
+        parent_state = open_set.get()
+        if start == goal:
+            return None #this should return the path, needs work
+        for (child_state, action) in graph.get_connected_nodes(parent_state):
+            if child_state in closed_set:
+                continue
+            if child_state not in open_set:
+                meta[child_state] = (parent_state, action)
+                open_set.put(child_state)
+        closed_set.add(parent_state)
+        
+def construct_path(state, meta):
+    action_list = list()
+    
+    while True:
+        row = meta[state]
+        if len(row) == 2:
+            state = row[0]
+            action = row[1]
+            action_list.append(action)
+        else:
+            break
+    
+    return action_list.reverse()
 ## Once you have completed the breadth-first search,
 ## this part should be very simple to complete.
 def dfs(graph, start, goal):
