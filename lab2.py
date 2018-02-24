@@ -39,18 +39,19 @@ from search import Graph
 # If you don't, it won't.
 # The online tester will not test them.
 
-dedef bfs(graph, start, goal):
+def bfs(graph, start, goal):
     open_set = queue.Queue()
     closed_set = set()
     meta = dict()
     
-    meta[start] = (None,None)
+    meta[start] = (None)
     open_set.put(start)
     
     while not open_set.empty():
         parent_state = open_set.get()
         if parent_state == goal:
             return construct_path(parent_state,meta) 
+            print ('fired')
         for child_state in graph.get_connected_nodes(parent_state):
             if child_state in closed_set:
                 continue
@@ -60,24 +61,17 @@ dedef bfs(graph, start, goal):
         closed_set.add(parent_state)
             
 def construct_path(state, meta):
-    action_list = list()
+    action = state
     
     while True:
         row = meta[state]
-        if len(row) == 2:
-            state = row[0]
-            action = row[1]
-            action_list.append(action)
+        if type(row) is type(str()):
+            state = row
+            action = state + action  
         else:
             break
-    
-    return action_list.reverse()
-## Once you have completed the breadth-first search,
-## this part should be very simple to complete.
-def dfs(graph, start, goal):
-    raise NotImplementedError
-
-
+        
+    print (action)
 ## Now we're going to add some heuristics into the search.  
 ## Remember that hill-climbing is a modified version of depth-first search.
 ## Search direction should be towards lower heuristic values to the goal.
