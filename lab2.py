@@ -70,8 +70,27 @@ def construct_path(state, meta):
             action = state + action  
         else:
             break
-        
     print (action)
+    
+def construct_dfspath(edge):
+    print ('found')
+
+discovered = 0
+def dfs(graph, v ,goal):
+    global discovered
+    if discovered == 0:
+        discovered = dict()
+    discovered[v] = True
+    if v == goal:
+        return construct_dfspath(v)
+    for edge in graph.get_connected_nodes(v):
+        print ('ran')
+        if edge == goal:
+            return construct_dfspath(edge)
+        if edge not in discovered:
+            discovered[edge] = False
+        if discovered[edge] != True:
+            dfs(graph, edge, goal)
 ## Now we're going to add some heuristics into the search.  
 ## Remember that hill-climbing is a modified version of depth-first search.
 ## Search direction should be towards lower heuristic values to the goal.
