@@ -24,16 +24,16 @@ ANSWER4 = True
 
 # 5: True or false - Breadth first search is guaranteed to return a path
 #    with the shortest number of nodes.
-ANSWER5 = False
+ANSWER5 = True
 
 # 6: True or false - The regular branch and bound uses heuristic values
 #    to speed up the search for an optimal path.
-ANSWER6 = True
+ANSWER6 = False
 
 # Import the Graph data structure from 'search.py'
 # Refer to search.py for documentation
 from search import Graph
-
+import queue
 ## Optional Warm-up: BFS and DFS
 # If you implement these, the offline tester will test them.
 # If you don't, it won't.
@@ -51,7 +51,7 @@ def bfs(graph, start, goal):
         parent_state = open_set.get()
         if parent_state == goal:
             return construct_path(parent_state,meta) 
-            print ('fired')
+            
         for child_state in graph.get_connected_nodes(parent_state):
             if child_state in closed_set:
                 continue
@@ -62,7 +62,6 @@ def bfs(graph, start, goal):
             
 def construct_path(state, meta):
     action = state
-    
     while True:
         row = meta[state]
         if type(row) is type(str()):
@@ -71,26 +70,32 @@ def construct_path(state, meta):
         else:
             break
     print (action)
+    return action    
     
-def construct_dfspath(edge):
-    print ('found')
+    
+## Once you have completed the breadth-first search,
+## this part should be very simple to complete.
 
-discovered = 0
+discovered = dict()
+meta = dict()
 def dfs(graph, v ,goal):
     global discovered
-    if discovered == 0:
-        discovered = dict()
+    global meta
+    if bool(meta) == False:
+        meta[v] = (None)
     discovered[v] = True
-    if v == goal:
-        return construct_dfspath(v)
     for edge in graph.get_connected_nodes(v):
-        print ('ran')
         if edge == goal:
-            return construct_dfspath(edge)
-        if edge not in discovered:
-            discovered[edge] = False
-        if discovered[edge] != True:
-            dfs(graph, edge, goal)
+            meta[edge] = v
+            return construct_path(edge,meta)
+        else:
+            if edge not in discovered:
+                discovered[edge] = False
+                meta[edge] = v
+            if discovered[edge] != True:
+                dfs(graph, edge, goal)
+        
+'''
 ## Now we're going to add some heuristics into the search.  
 ## Remember that hill-climbing is a modified version of depth-first search.
 ## Search direction should be towards lower heuristic values to the goal.
@@ -135,3 +140,4 @@ def is_consistent(graph, goal):
 HOW_MANY_HOURS_THIS_PSET_TOOK = ''
 WHAT_I_FOUND_INTERESTING = ''
 WHAT_I_FOUND_BORING = ''
+'''
