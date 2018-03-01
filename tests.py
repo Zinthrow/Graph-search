@@ -163,6 +163,7 @@ try:
 except NotImplementedError:
     do_dfs = False
 
+
 if do_bfs:
 
     ### TEST 7-optional ###
@@ -208,7 +209,7 @@ if do_bfs:
 
     def bfs_3_testanswer(val, original_val = None):
         return ( val and list(val) == list('S') )
-
+        print('ran bfs3')
     make_test(type = 'FUNCTION',
               getargs = bfs_3_getargs,
               testanswer = bfs_3_testanswer,
@@ -428,7 +429,7 @@ make_test(type = 'FUNCTION',
           name = 'hill_climbing'
           )
 
-
+'''
 ### TEST 15 ###
 
 def exp_graph(depth):
@@ -941,4 +942,5 @@ make_test(type = 'VALUE',
           expected_val = "[a number of hours]",
           name = WHAT_I_FOUND_BORING_getargs
           )
+'''
 
