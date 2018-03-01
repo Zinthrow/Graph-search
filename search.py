@@ -17,6 +17,7 @@ class Edge:
         self.node1 = node1
         self.node2 = node2
         self.length = length
+        self.discovered = False
     def __repr__(self):
         return 'Edge ' + self.name + \
                ' from ' + self.node1 + ' to ' + self.node2 + \
@@ -132,4 +133,3 @@ class Graph:
 
     def __str__(self):
         return "Graph: \n  edges="+str(self.edges)+"\n  heuristic="+str(self.heuristic)
-
