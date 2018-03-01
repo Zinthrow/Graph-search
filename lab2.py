@@ -51,13 +51,13 @@ def bfs(graph, start, goal):
         parent_state = open_set.get()
         if parent_state == goal:
             return construct_path(parent_state,meta) 
-            
         for child_state in graph.get_connected_nodes(parent_state):
             if child_state in closed_set:
                 continue
             if child_state not in list(open_set.queue):
                 meta[child_state] = (parent_state)
                 open_set.put(child_state)
+                
         closed_set.add(parent_state)
             
 def construct_path(state, meta):
@@ -70,8 +70,7 @@ def construct_path(state, meta):
         else:
             break
     print (action)
-    return action    
-    
+    return list(action)    
     
 ## Once you have completed the breadth-first search,
 ## this part should be very simple to complete.
@@ -95,13 +94,33 @@ def dfs(graph, v ,goal):
             if discovered[edge] != True:
                 dfs(graph, edge, goal)
         
-'''
+
 ## Now we're going to add some heuristics into the search.  
 ## Remember that hill-climbing is a modified version of depth-first search.
 ## Search direction should be towards lower heuristic values to the goal.
-def hill_climbing(graph, start, goal):
-    raise NotImplementedError
-
+discovered = dict()
+meta = dict()
+def hill_climbing(graph, v, goal):
+    global discovered
+    global meta
+    if bool(meta) == False:
+        meta[v] = (None)
+    discovered[v] = True
+    max_heuristic = float('inf')
+    connected = graph.get_connected_nodes(v)
+    for edge,heuristic in zip(connected, graph.get_heuristic(v,goal)):
+        if edge == goal:
+            print ('path found')
+            meta[edge] = v
+            return (construct_path(edge, meta))
+        if heuristic <= max_heuristic:
+            max_heuristic = heuristic
+            if edge not in discovered:
+                discovered[edge] = False
+                meta[edge] = v
+            if discovered[edge] != True:
+                hill_climbing(graph, edge, goal)
+'''
 ## Now we're going to implement beam search, a variation on BFS
 ## that caps the amount of memory used to store paths.  Remember,
 ## we maintain only k candidate paths of length n in our agenda at any time.
