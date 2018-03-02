@@ -43,10 +43,8 @@ def bfs(graph, start, goal):
     open_set = queue.Queue()
     closed_set = set()
     meta = dict()
-    
     meta[start] = (None)
     open_set.put(start)
-    
     while not open_set.empty():
         parent_state = open_set.get()
         if parent_state == goal:
@@ -56,11 +54,11 @@ def bfs(graph, start, goal):
                 continue
             if child_state not in list(open_set.queue):
                 meta[child_state] = (parent_state)
-                open_set.put(child_state)
-                
+                open_set.put(child_state)        
         closed_set.add(parent_state)
             
 def construct_path(state, meta):
+    print ('it done run')
     action = state
     while True:
         row = meta[state]
@@ -77,6 +75,7 @@ def construct_path(state, meta):
 
 discovered = dict()
 meta = dict()
+
 def dfs(graph, v ,goal):
     global discovered
     global meta
@@ -93,34 +92,58 @@ def dfs(graph, v ,goal):
                 meta[edge] = v
             if discovered[edge] != True:
                 dfs(graph, edge, goal)
-        
-
+'''                
+def dfs(graph,start, goal): # This is a non-recursive dfs
+    open_set = queue.LifoQueue()
+    closed_set = set()
+    meta = dict()
+    
+    meta[start] = (None)
+    open_set.put(start)
+    
+    while not open_set.empty():
+        parent_state = open_set.get()
+        if parent_state == goal:
+            return construct_path(parent_state,meta) 
+        for child_state in graph.get_connected_nodes(parent_state):
+            if child_state in closed_set:
+                continue
+            if child_state not in list(open_set.queue):
+                meta[child_state] = (parent_state)
+                open_set.put(child_state)       
+        closed_set.add(parent_state)'''
 ## Now we're going to add some heuristics into the search.  
 ## Remember that hill-climbing is a modified version of depth-first search.
 ## Search direction should be towards lower heuristic values to the goal.
-discovered = dict()
-meta = dict()
-def hill_climbing(graph, v, goal):
-    global discovered
-    global meta
-    if bool(meta) == False:
-        meta[v] = (None)
-    discovered[v] = True
-    max_heuristic = float('inf')
-    connected = graph.get_connected_nodes(v)
-    for edge,heuristic in zip(connected, graph.get_heuristic(v,goal)):
-        if edge == goal:
-            print ('path found')
-            meta[edge] = v
-            return (construct_path(edge, meta))
-        if heuristic <= max_heuristic:
-            max_heuristic = heuristic
-            if edge not in discovered:
-                discovered[edge] = False
-                meta[edge] = v
-            if discovered[edge] != True:
-                hill_climbing(graph, edge, goal)
+
+def hill_climbing(graph,start, goal):
+    open_set = queue.LifoQueue()
+    closed_set = set()
+    meta = dict()
+    meta[start] = (None)
+    open_set.put(start)
+    while not open_set.empty():
+        parent_state = open_set.get()
+        if parent_state == goal:
+            return construct_path(parent_state,meta)
+        list_heuristic = []
+        list_edge = []
+        for edge in graph.get_connected_nodes(parent_state):
+            heuristic = graph.get_heuristic(edge,goal)
+            if edge in closed_set:
+                continue           
+            else:#if edge not in list(open_set.queue):
+                list_heuristic.append(heuristic)
+                list_edge.append(edge)
+        sorted_edges = [e for h, e in sorted(zip(list_heuristic,list_edge))]
+        for edge in sorted_edges[::-1]:
+            meta[edge] = (parent_state)
+            open_set.put(edge)
+        closed_set.add(parent_state)
+                              
 '''
+
+
 ## Now we're going to implement beam search, a variation on BFS
 ## that caps the amount of memory used to store paths.  Remember,
 ## we maintain only k candidate paths of length n in our agenda at any time.
