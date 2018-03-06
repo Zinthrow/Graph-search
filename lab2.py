@@ -200,7 +200,7 @@ def path_length(graph, node_names):
             
 
 def branch_and_bound(graph, start, goal):
-    open_set = queue.Queue()
+    open_set = queue.LifoQueue()
     closed_set =set()
     found_paths = set()
     meta = dict()
