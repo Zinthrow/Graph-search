@@ -3,10 +3,9 @@
 from search import *
 from graphs import *
 from tester import make_test, get_tests
-from lab2 import bfs, dfs
+from lab2 import *
 import random
 import time
-
 
 ### TEST 1 ###
 
@@ -304,6 +303,7 @@ if do_dfs:
 
 ### TEST 7 ###
 
+
 def path_length_1_getargs():
     return [ NEWGRAPH2, list('S') ]
 
@@ -351,7 +351,8 @@ make_test(type = 'FUNCTION',
 
 
 ### TEST 10 ###
-
+    
+    
 def hill_climbing_1_getargs():
     return [ NEWGRAPH1, 'S', 'G' ]
 
@@ -429,7 +430,7 @@ make_test(type = 'FUNCTION',
           name = 'hill_climbing'
           )
 
-'''
+
 ### TEST 15 ###
 
 def exp_graph(depth):
@@ -455,7 +456,7 @@ def exp_graph(depth):
             shared_parent = shared_parent / 2 # intentional integer division
         g.set_heuristic(str(nodeid), str(goal), distance+best_path.index(shared_parent))
     return g
-
+'''
 hill_climbing_test_6_graph = exp_graph(10)
 hill_climbing_test_6_goal = list(hill_climbing_test_6_graph.heuristic.keys())[0]
 hill_climbing_timing = {'START': 0}
@@ -475,14 +476,14 @@ make_test(type = 'FUNCTION',
                           % hill_climbing_test_6_goal),
           name = 'hill_climbing'
           )
-
+'''
 
 ### TEST 16 ###
 
 def beam_search_1_getargs():
     return [ NEWGRAPH1, 'S', 'G', 2 ]
 
-beam_search_1_answer = list('')
+beam_search_1_answer = list('SCEG')
 
 def beam_search_1_testanswer(val, original_val = None):
     return ( val == beam_search_1_answer )
@@ -551,7 +552,7 @@ make_test(type = 'FUNCTION',
 def beam_search_3_beam_2_getargs():
     return [ NEWGRAPH2, 'S', 'G', 2 ]
 
-beam_search_3_beam_2_answer = list('')
+beam_search_3_beam_2_answer = list('SCEG')
 
 def beam_search_3_beam_2_testanswer(val, original_val = None):
     return ( val == beam_search_3_beam_2_answer )
@@ -596,6 +597,7 @@ make_test(type = 'FUNCTION',
           expected_val = list('SCEG'),
           name = 'branch_and_bound'
           )
+
 
 
 ### TEST 23 ###
@@ -693,7 +695,7 @@ make_test(type = 'FUNCTION',
           name = 'a_star'
           )
 
-
+'''
 ### TEST 29 ###
 
 a_star_test_5_graph = exp_graph(11)
@@ -715,7 +717,7 @@ make_test(type = 'FUNCTION',
                           % a_star_test_5_goal),
           name = 'a_star'
           )
-
+'''
 
 ### TEST 30 ###
 
@@ -728,7 +730,7 @@ def a_star_test_6_testanswer(val, original_val=None):
 make_test(type = 'FUNCTION_ENCODED_ARGS',
           getargs = a_star_test_6_getargs,
           testanswer = a_star_test_6_testanswer,
-          expected_val = "correct path for the quiz search problem",
+          expected_val = list("SBCJLT"),
           name = 'a_star'
           )
 
@@ -748,7 +750,7 @@ make_test(type = 'FUNCTION',
           name = 'a_star'
           )
   
-
+'''
 ### TEST 32 ###
 
 def is_admissible_1_getargs():
